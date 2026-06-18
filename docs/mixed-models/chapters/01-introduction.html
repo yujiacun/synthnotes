@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1: Introduction — Mixed Models</title>
+    <script>
+        try {
+            if (localStorage.getItem('statbook:theme') === 'light')
+                document.documentElement.dataset.theme = 'light';
+        } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: '$',  right: '$',  display: false},
+                    {left: '\\(', right: '\\)', display: false}
+                ]
+            });"></script>
+</head>
+<body>
+    <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+    <aside id="sidebar"></aside>
+
+    <main>
+        <h2 id="sec-the-two-pillars">The two pillars</h2>
+
+        <p>Statistics splits into two branches:</p>
+
+        <table>
+            <thead>
+                <tr><th>Branch</th><th>What it does</th><th>Examples</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Descriptive</strong></td>
+                    <td>Summarise and organise data so patterns are visible.</td>
+                    <td>means, percentages, charts, tables</td>
+                </tr>
+                <tr>
+                    <td><strong>Inferential</strong></td>
+                    <td>Use a sample to draw conclusions about the population it came from.</td>
+                    <td>hypothesis tests, confidence intervals, regression</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Descriptive describes what happened. Inferential generalises beyond it.</p>
+
+        <h3 id="sec-worked-example">Worked Example</h3>
+        <p>A teacher records test scores for her 30 students:</p>
+
+        <table>
+            <thead>
+                <tr><th>Measure</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Mean</td>   <td>72.4</td></tr>
+                <tr><td>Median</td> <td>74</td></tr>
+                <tr><td>Min</td>    <td>41</td></tr>
+                <tr><td>Max</td>    <td>98</td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>Descriptive:</strong> mean 72.4, range 41–98 — these 30 students.</p>
+        <p><strong>Inferential:</strong> to claim something about <em>all</em> students taught this way, build a confidence interval like "95% confident the true mean is between 68.1 and 76.7."</p>
+
+        <h3 id="sec-cis-and-95">CIs are inferential — and why 95%?</h3>
+        <p>A confidence interval <em>looks</em> descriptive — it is just a range. But it is inferential: it uses sample data to make a probability statement about an unknown population parameter. The interval reaches beyond what you observed.</p>
+        <p>The 95% level is convention, not law. Ronald Fisher's informal $p < 0.05$ threshold from the 1920s–30s set the standard; a 95% CI is the interval form of that same idea. Other fields set their own bars:</p>
+        <table>
+            <thead><tr><th>Field</th><th>Typical level</th><th>Reason</th></tr></thead>
+            <tbody>
+                <tr><td>Most social / medical research</td><td>95%</td><td>Convention (Fisher)</td></tr>
+                <tr><td>Engineering / safety-critical</td><td>99–99.9%</td><td>High cost of error</td></tr>
+                <tr><td>Exploratory analysis</td><td>90%</td><td>Less stringent threshold acceptable</td></tr>
+                <tr><td>Particle physics</td><td>99.9999% ($5\sigma$)</td><td>Extremely high bar for a discovery claim</td></tr>
+            </tbody>
+        </table>
+        <p>Choose your confidence level based on the consequences of being wrong. 95% is the default only because everyone else uses it.</p>
+
+        <h2 id="sec-key-vocabulary">Key vocabulary</h2>
+
+        <table>
+            <thead>
+                <tr><th>Level</th><th>Term</th><th>What it is</th><th>Notation</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2"><strong>Population</strong></td>
+                    <td><strong>Population</strong></td>
+                    <td>The complete set of items you care about (every UK adult, every die roll, every widget produced by a factory).</td>
+                    <td>$N$ (size)</td>
+                </tr>
+                <tr>
+                    <td><strong>Parameter</strong></td>
+                    <td>A number that describes the population — usually unknown.</td>
+                    <td>Greek: $\mu$, $\sigma$, $\rho$</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><strong>Sample</strong></td>
+                    <td><strong>Sample</strong></td>
+                    <td>A subset of the population that you actually observe.</td>
+                    <td>$n$ (size)</td>
+                </tr>
+                <tr>
+                    <td><strong>Statistic</strong></td>
+                    <td>A number computed from the sample — used to estimate a parameter.</td>
+                    <td>Roman: $\bar{x}$, $s$, $r$</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The whole game of inferential statistics is using statistics to estimate parameters.</p>
+
+        <h3 id="sec-worked-example-screen-time">Worked Example — UK student screen time</h3>
+        <p>You want to know the average daily screen time of UK university students.</p>
+
+        <table>
+            <thead>
+                <tr><th>Level</th><th>Term</th><th>In this example</th><th>Notation</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2"><strong>Population</strong></td>
+                    <td><strong>Population</strong></td>
+                    <td>All UK uni students ($\approx 2.9$ million).</td>
+                    <td>$N \approx 2.9\text{M}$</td>
+                </tr>
+                <tr>
+                    <td><strong>Parameter</strong></td>
+                    <td>True mean screen time — unknown.</td>
+                    <td>$\mu$ (unknown)</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><strong>Sample</strong></td>
+                    <td><strong>Sample</strong></td>
+                    <td>400 students across 10 universities.</td>
+                    <td>$n = 400$</td>
+                </tr>
+                <tr>
+                    <td><strong>Statistic</strong></td>
+                    <td>Mean of your 400: 4.7 hrs/day. Your best estimate of $\mu$.</td>
+                    <td>$\bar{x} = 4.7$</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Inferential statistics is about quantifying how close 4.7 is likely to be to the true value.</p>
+
+        <h2 id="sec-types-of-data">Types of data</h2>
+
+        <p>The type of a variable determines which statistical tools apply to it.</p>
+
+        <table>
+            <thead>
+                <tr><th>Class</th><th>Type</th><th>Description</th><th>Examples</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2"><strong>Categorical</strong></td>
+                    <td>Nominal</td>
+                    <td>Unordered categories.</td>
+                    <td>blood type, colour, country</td>
+                </tr>
+                <tr>
+                    <td>Ordinal</td>
+                    <td>Ordered categories with unequal gaps.</td>
+                    <td>satisfaction rating, education level, shirt size</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><strong>Numerical</strong></td>
+                    <td>Discrete</td>
+                    <td>Countable values, usually integers.</td>
+                    <td>number of siblings, goals scored, emails received</td>
+                </tr>
+                <tr>
+                    <td>Continuous</td>
+                    <td>Any value on a range.</td>
+                    <td>height, weight, temperature, time</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>You can average weights, not postcodes. You can rank shirt sizes, but you can't subtract M from XL. The type tells you which operations and charts are valid.</p>
+
+        <h2 id="sec-questions">Questions</h2>
+
+        <ol class="prose">
+            <li>A hospital records the average recovery time for all 200 patients treated last month. Is this descriptive or inferential statistics? Explain why.</li>
+            <li>A polling company surveys 1,000 UK adults and finds 54% support a new policy. Identify the population, sample, parameter, and statistic. What notation would you use for each?</li>
+            <li>A researcher records the following about each participant: age, satisfaction rating (1–5), number of hospital visits last year, and blood type. Classify each variable by type.</li>
+            <li>A 95% CI for mean daily steps is (7,200 – 8,400). Your colleague says "that's just a description of the range we observed." What's wrong with that?</li>
+            <li>A clinical drug trial uses a 99% CI rather than the standard 95%. What does this choice tell you about how the researchers view the consequences of being wrong?</li>
+        </ol>
+    </main>
+
+    <script src="../sidebar-data.js"></script>
+    <script src="../../sidebar.js"></script>
+    <script src="../../main.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+/* ─────────────────────────────────────────────────────────────────
+   Final theme — Newsprint (light) + Soft charcoal (dark)
+   Shared accent family: oxblood. Light uses #7d2e3a; dark brightens
+   to #c45a6a so it reads cleanly on the charcoal background.
+   To adopt: paste these two blocks over style.css's :root and
+   [data-theme="light"] blocks (and update --code-bg if needed).
+   ───────────────────────────────────────────────────────────────── */
+
+/* Dark — Soft charcoal + oxblood (default) */
+:root {
+    --bg:            #232527;
+    --bg-soft:       #1c1e20;
+    --bg-elev:       #2c2e30;
+    --bg-hover:      #303236;
+    --text:          #e3e3e1;
+    --text-body:     #b4b4b1;
+    --text-soft:     #888884;
+    --text-faint:    #5d5d5a;
+    --rule:          #38383a;
+    --rule-strong:   #46464a;
+    --accent:        #c45a6a;
+    --accent-soft:   rgba(196, 90, 106, 0.11);
+    --code-bg:       #1c1e20;
+}
+
+/* Light — Newsprint */
+[data-theme="light"] {
+    --bg:            #fafaf7;
+    --bg-soft:       #f0f0ec;
+    --bg-elev:       #f4f4f1;
+    --bg-hover:      #e9e9e4;
+    --text:          #1a1a17;
+    --text-body:     #444441;
+    --text-soft:     #6e6e69;
+    --text-faint:    #9e9e98;
+    --rule:          #dcdcd6;
+    --rule-strong:   #b8b8b0;
+    --accent:        #7d2e3a;
+    --accent-soft:   rgba(125, 46, 58, 0.10);
+    --code-bg:       #f0f0ec;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixed Models</title>
+    <script>
+        try {
+            if (localStorage.getItem('statbook:theme') === 'light')
+                document.documentElement.dataset.theme = 'light';
+        } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+    <aside id="sidebar"></aside>
+
+    <main>
+        <h1>Mixed Models</h1>
+        <p>
+            Start at <a href="chapters/01-introduction.html">Chapter 1: Introduction</a>.
+        </p>
+    </main>
+
+    <script src="sidebar-data.js"></script>
+    <script src="../sidebar.js"></script>
+    <script src="../main.js"></script>
+</body>
+</html>

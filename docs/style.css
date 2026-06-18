@@ -1,0 +1,600 @@
+/* =================================================================
+   Statistics — a ground-up reference
+   Warm-grey dark theme, full-width layout
+   ================================================================= */
+
+:root {
+    /* ── Palette (dark — default · Soft charcoal + oxblood) ────── */
+    --bg:            #232527;
+    --bg-soft:       #1c1e20;     /* sidebar */
+    --bg-elev:       #2c2e30;     /* raised surfaces / hover */
+    --bg-hover:      #303236;
+    --text:          #e3e3e1;     /* bright — used for headings, table headers */
+    --text-body:     #b4b4b1;     /* muted — used for body paragraphs, table cells */
+    --text-soft:     #888884;
+    --text-faint:    #5d5d5a;
+    --rule:          #38383a;
+    --rule-strong:   #46464a;
+
+    --accent:        #c45a6a;     /* brightened oxblood — used sparingly */
+    --accent-soft:   rgba(196, 90, 106, 0.11);
+
+    --code-bg:       #1c1e20;
+
+    /* ── Layout ─────────────────────────────────────────────────── */
+    --top-bar-h:     56px;
+    --main-padding:  4rem;
+
+    /* ── Typography ─────────────────────────────────────────────── */
+    --serif:   "Charter", "Iowan Old Style", "Georgia", "Cambria", serif;
+    --sans:    -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --mono:    "JetBrains Mono", "Fira Code", "SFMono-Regular", "Cascadia Mono", "Consolas", monospace;
+}
+
+/* ── Palette (light · Newsprint + deep oxblood) ───────────────── */
+[data-theme="light"] {
+    --bg:            #fafaf7;
+    --bg-soft:       #f0f0ec;
+    --bg-elev:       #f4f4f1;
+    --bg-hover:      #e9e9e4;
+    --text:          #1a1a17;
+    --text-body:     #444441;
+    --text-soft:     #6e6e69;
+    --text-faint:    #9e9e98;
+    --rule:          #dcdcd6;
+    --rule-strong:   #b8b8b0;
+
+    --accent:        #7d2e3a;     /* deep oxblood */
+    --accent-soft:   rgba(125, 46, 58, 0.10);
+
+    --code-bg:       #f0f0ec;
+}
+
+* { box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text-body);
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+body { padding-top: var(--top-bar-h); }
+
+::selection { background: var(--accent-soft); color: var(--text); }
+
+body.no-transition,
+body.no-transition * { transition: none !important; }
+
+/* ── Layout ────────────────────────────────────────────────────── */
+
+/* Sidebar element is kept in chapter HTML for backward compatibility
+   but no longer used — navigation moved into the top-bar dropdowns. */
+aside#sidebar { display: none; }
+
+/* Centered reading column — ~1040px target (room for wider tables). */
+main {
+    max-width: clamp(320px, calc(100vw - 400px), 1040px);
+    margin: 0 auto;
+    padding: var(--main-padding) 1.5rem 6rem;
+}
+
+/* Home page hint — single muted line below the title */
+.home-hint {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    margin: 1.5rem 0 0;
+}
+
+/* ── Home page: guides index (TOC of notebooks, built by home.js) ── */
+
+#home-guides {
+    max-width: 640px;
+    margin: 2.25rem 0 0;
+}
+
+.home-cat { margin: 0 0 2rem; }
+
+.home-cat-title {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--text-soft);
+    margin: 0 0 0.5rem;
+    padding: 0 0 0.5rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.home-guide-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.home-guide a,
+.home-guide.disabled > span {
+    display: block;
+    padding: 0.65rem 0.8rem;
+    border-radius: 6px;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1.05rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.12s, color 0.12s;
+}
+
+.home-guide a:hover { background: var(--bg-elev); color: var(--accent); }
+
+.home-guide.dim { opacity: 0.72; }
+.home-guide.disabled > span { cursor: default; }
+
+/* First h2 on a chapter page has no h1 above it — drop the big top margin */
+main > h2:first-child {
+    margin-top: 0;
+}
+
+@media (max-width: 900px) {
+    main { padding: 4rem 1.5rem 3rem; }
+}
+
+/* Menu toggle — element kept in chapter HTML for backward compatibility,
+   but the sidebar is gone, so the button has nothing to toggle. Hide it. */
+#menu-toggle { display: none; }
+
+/* ── Theme toggle (lives in top bar right) ─────────────────────── */
+
+#theme-toggle {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-elev);
+    color: var(--text-soft);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    font-family: var(--sans);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+#theme-toggle:hover {
+    background: var(--bg-hover);
+    color: var(--text);
+    border-color: var(--rule-strong);
+}
+
+/* ── Top bar (fixed, contains guide + chapter switchers; theme right) ── */
+
+#top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--top-bar-h);
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    z-index: 20;
+}
+
+/* Dropdowns centered in the full top bar (independent of the main column). */
+#top-bar .top-bar-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 0 1.5rem;
+}
+
+/* Theme toggle floats far right against the viewport edge */
+#theme-toggle {
+    position: absolute;
+    top: 50%;
+    right: 1.5rem;
+    transform: translateY(-50%);
+}
+
+/* ── Switcher dropdowns (shared base styles) ──────────────────── */
+
+.switcher {
+    position: relative;
+}
+
+.switcher-trigger {
+    all: unset;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    max-width: 100%;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: color 0.12s, background 0.12s;
+}
+
+.switcher-trigger:hover {
+    color: var(--accent);
+    background: var(--bg-elev);
+}
+
+.switcher-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.switcher-chev {
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+}
+
+.switcher[data-open="true"] .switcher-chev {
+    transform: rotate(180deg);
+    color: var(--text-soft);
+}
+
+.switcher-popover {
+    list-style: none;
+    margin: 0;
+    padding: 0.35rem 0;
+    position: absolute;
+    top: calc(100% + 0.3rem);
+    left: 0;
+    min-width: 260px;
+    max-height: 70vh;
+    overflow-y: auto;
+    background: var(--bg-elev);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    z-index: 60;
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity 0.12s, transform 0.12s;
+}
+
+.switcher[data-open="true"] .switcher-popover {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.switcher-popover li { margin: 0; }
+
+.switcher-popover a,
+.switcher-popover > li > span {
+    display: block;
+    padding: 0.35rem 0.9rem;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    text-decoration: none;
+    transition: background 0.1s, color 0.1s;
+}
+
+.switcher-popover a:hover {
+    background: var(--bg-hover);
+    color: var(--accent);
+}
+
+/* All items use the same colour regardless of populated/empty state.
+   You discover what's clickable by hovering — empty items (rendered as
+   <span> not <a>) don't respond to hover, populated items turn oxblood. */
+.switcher-popover li.disabled > span { cursor: default; }
+
+/* ── Guide popover: category headers ──────────────────────────── */
+
+.guide-popover .category-header > span {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--text);
+    padding: 0.7rem 0.9rem 0.3rem;
+    cursor: default;
+}
+
+.guide-popover .category-header:not(:first-child) > span {
+    border-top: 1px solid var(--rule);
+    margin-top: 0.25rem;
+    padding-top: 0.7rem;
+}
+
+/* ── Chapter popover specifics ───────────────────────────────── */
+
+.chapter-popover { min-width: 360px; }
+
+.chapter-popover .stage-header > span {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--text);
+    padding: 0.7rem 0.9rem 0.3rem;
+    cursor: default;
+}
+
+.chapter-popover .stage-header + .chapter-item {
+    /* Tighten the gap below the stage label */
+    margin-top: 0;
+}
+
+.chapter-popover .stage-header:not(:first-child) > span {
+    border-top: 1px solid var(--rule);
+    margin-top: 0.25rem;
+    padding-top: 0.7rem;
+}
+
+/* ── Typography ────────────────────────────────────────────────── */
+
+h1, h2, h3, h4 {
+    font-family: var(--sans);
+    color: var(--text);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem;
+    padding-bottom: 0;
+    border-bottom: none;
+    width: auto;
+}
+
+.chapter-tag {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+}
+
+h2 {
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 2.75rem 0 0.9rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+    width: auto;
+}
+
+h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.5rem;
+    padding-bottom: 0;
+    text-transform: none;
+    letter-spacing: -0.005em;
+    color: var(--text);
+    border-bottom: none;
+    width: auto;
+}
+
+/* Jumped-to section headings (h2 and h3 both carry anchor ids) clear the
+   fixed top bar instead of sliding underneath it. This is the ONLY
+   scroll-offset mechanism — do not add scroll-padding on html; the two
+   stack additively and double the offset. */
+h2, h3 {
+    scroll-margin-top: calc(var(--top-bar-h) + 1rem);
+}
+
+p { margin: 0.8rem 0; }
+
+a {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--rule-strong);
+    transition: text-decoration-color 0.12s, color 0.12s;
+}
+a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+em { font-style: italic; }
+strong { font-weight: 600; }
+
+ul, ol.prose {
+    margin: 0.6rem 0;
+    padding-left: 1.5rem;
+}
+
+ul li, ol.prose li { margin: 0.3rem 0; }
+
+/* Section number prepended to h2 / h3 in main body — a thin outline chip in
+   the accent colour. The border uses currentColor, so it tracks the per-theme
+   number colour automatically (dark accent, brighter red in light). */
+.section-num {
+    display: inline-block;
+    margin-right: 0.55rem;
+    padding: 0.1em 0.4em;
+    color: var(--accent);
+    border: 1px solid currentColor;
+    border-radius: 0.3em;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9em;
+}
+
+/* Light-mode oxblood (#7d2e3a) reads muddy at this small inline size — use a
+   brighter, more saturated red. The outline border picks this up via
+   currentColor in the base rule above. */
+[data-theme="light"] .section-num { color: #a82d3e; }
+
+/* ── Code ──────────────────────────────────────────────────────── */
+
+code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--code-bg);
+    color: #d6cf9d;
+    padding: 0.12em 0.38em;
+    border-radius: 3px;
+    border: 1px solid var(--rule);
+}
+
+pre {
+    font-family: var(--mono);
+    font-size: 0.88rem;
+    background: var(--code-bg);
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    line-height: 1.55;
+    border: 1px solid var(--rule);
+}
+
+pre code {
+    background: transparent;
+    padding: 0;
+    border: none;
+    color: inherit;
+    font-size: inherit;
+}
+
+/* ── Tables ────────────────────────────────────────────────────── */
+/* Subtle elevated fill + hairline top/bottom so the table reads as
+   a bounded block. No outer frame, no vertical rules. */
+
+table {
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.92rem;
+    font-family: var(--sans);
+    color: var(--text-body);
+    background: var(--bg-elev);
+    border: none;
+    border-top: 1px solid var(--text-soft);
+    border-bottom: 1px solid var(--text-soft);
+}
+
+table th, table td {
+    padding: 0.7rem 1rem;
+    text-align: left;
+    vertical-align: top;
+    background: transparent;
+    color: var(--text-body);
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+}
+
+table tbody tr:last-child th, table tbody tr:last-child td { border-bottom: none; }
+
+table thead th {
+    font-weight: 600;
+    border-bottom: 1px solid var(--rule-strong);
+}
+
+table tbody th {
+    font-weight: 600;
+}
+
+table tbody tr:hover td,
+table tbody tr:hover th { background: var(--bg-hover); }
+
+/* Light mode: lift the table fill a touch deeper (newsprint tones are close
+   to each other; --bg-elev is barely visible). */
+[data-theme="light"] table { background: var(--bg-soft); }
+
+/* Strong/em inherit cell colour (override the page-wide `strong` colour) */
+table strong, table em { color: inherit; }
+
+/* ── Chapter nav (prev/next) ───────────────────────────────────── */
+
+.chapter-nav {
+    margin-top: 4rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    gap: 1rem;
+}
+
+.chapter-nav a {
+    text-decoration: none;
+    color: var(--text-soft);
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    transition: background 0.12s, color 0.12s;
+}
+
+.chapter-nav a:hover { background: var(--bg-elev); color: var(--text); }
+
+.chapter-nav a.next { text-align: right; align-items: flex-end; }
+
+.chapter-nav a.pending { color: var(--text-faint); cursor: default; pointer-events: none; font-style: italic; }
+
+.chapter-nav .nav-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+}
+
+.chapter-nav .nav-title {
+    font-weight: 600;
+    color: inherit;
+}
+
+/* ── KaTeX ─────────────────────────────────────────────────────── */
+
+.katex { color: var(--text); }
+.katex-display {
+    margin: 1rem 0 !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* ── Landing page hero ─────────────────────────────────────────── */
+
+.hero {
+    margin-bottom: 2.5rem;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    border: none;
+    padding-bottom: 0;
+    margin-bottom: 0.4rem;
+}
+
+.hero .subtitle {
+    font-size: 1.15rem;
+    color: var(--text-soft);
+    font-style: italic;
+}

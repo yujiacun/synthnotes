@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <script>
+        try {
+            if (localStorage.getItem('statbook:theme') === 'light')
+                document.documentElement.dataset.theme = 'light';
+        } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+    <aside id="sidebar"></aside>
+
+    <main>
+        <h1>Notes</h1>
+        <div id="home-guides"></div>
+    </main>
+
+    <script src="guides.js"></script>
+    <script src="sidebar.js"></script>
+    <script src="home.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{TITLE}}</title>
+    <script>
+        try {
+            if (localStorage.getItem('statbook:theme') === 'light')
+                document.documentElement.dataset.theme = 'light';
+        } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+    <aside id="sidebar"></aside>
+
+    <main>
+        <h1>{{TITLE}}</h1>
+        <p>Road map pending — draft in a content session.</p>
+    </main>
+
+    <script src="sidebar-data.js"></script>
+    <script>
+        /* Nothing links to landing pages — the home index and the guide
+           switcher go straight to chapters. If someone opens the bare
+           folder URL after chapters exist, forward them to the first
+           written one. */
+        (function () {
+            const first = ((window.SIDEBAR_DATA || {}).stages || [])
+                .flatMap(s => s.chapters)
+                .find(c => c.status === 'done');
+            if (first) window.location.replace('chapters/' + first.id + '.html');
+        })();
+    </script>
+    <script src="../guides.js"></script>
+    <script src="../sidebar.js"></script>
+    <script src="../main.js"></script>
+</body>
+</html>

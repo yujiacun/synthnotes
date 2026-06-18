@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 2: Descriptive Statistics — Mixed Models</title>
+    <script>
+        try {
+            if (localStorage.getItem('statbook:theme') === 'light')
+                document.documentElement.dataset.theme = 'light';
+        } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: '$',  right: '$',  display: false},
+                    {left: '\\(', right: '\\)', display: false}
+                ]
+            });"></script>
+</head>
+<body>
+    <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+    <aside id="sidebar"></aside>
+
+    <main>
+        <h2 id="sec-measures-of-centre">Measures of centre</h2>
+
+        <p>A measure of centre locates where the data cluster. Three are in common use:</p>
+
+        <table>
+            <thead>
+                <tr><th>Measure</th><th>Definition</th><th>Notation</th><th>When it works best</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Mean</strong></td>
+                    <td>Sum of all values divided by count.</td>
+                    <td>$\bar{x}$ (sample), $\mu$ (population)</td>
+                    <td>Continuous data, no extreme outliers.</td>
+                </tr>
+                <tr>
+                    <td><strong>Median</strong></td>
+                    <td>The middle value when data are ordered.</td>
+                    <td>$\tilde{x}$ or $M$</td>
+                    <td>Skewed data or when outliers are present.</td>
+                </tr>
+                <tr>
+                    <td><strong>Mode</strong></td>
+                    <td>The most frequently occurring value.</td>
+                    <td>—</td>
+                    <td>Categorical data; multimodal distributions.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="sec-mean-formula">The mean in detail</h3>
+
+        <p>The sample mean sums all observations and divides by $n$:</p>
+
+        $$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
+
+        <p>The population mean uses the same formula over all $N$ members, giving the true parameter $\mu$. In practice $\mu$ is unknown — $\bar{x}$ is our estimate of it.</p>
+
+        <h3 id="sec-worked-example-centre">Worked Example</h3>
+
+        <p>Seven patients' hospital stays (days): 3, 5, 5, 6, 7, 9, 22.</p>
+
+        <table>
+            <thead>
+                <tr><th>Measure</th><th>Calculation</th><th>Result</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Mean</strong></td>
+                    <td>$(3+5+5+6+7+9+22) \div 7$</td>
+                    <td>8.1 days</td>
+                </tr>
+                <tr>
+                    <td><strong>Median</strong></td>
+                    <td>Middle value of ordered set</td>
+                    <td>6 days</td>
+                </tr>
+                <tr>
+                    <td><strong>Mode</strong></td>
+                    <td>Most frequent value</td>
+                    <td>5 days</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The 22-day outlier pulls the mean to 8.1, well above most of the data. The median (6) is a more representative centre here. This is why house prices and salaries are reported as medians — a few extreme values would distort the mean.</p>
+
+        <h2 id="sec-measures-of-spread">Measures of spread</h2>
+
+        <p>Centre alone is not enough. Two datasets can share the same mean but look completely different. Spread quantifies how much the data vary around the centre.</p>
+
+        <h3 id="sec-range-iqr">Range and IQR</h3>
+
+        <table>
+            <thead>
+                <tr><th>Measure</th><th>Definition</th><th>Weakness</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Range</strong></td>
+                    <td>Max $-$ Min</td>
+                    <td>Dominated by a single outlier.</td>
+                </tr>
+                <tr>
+                    <td><strong>IQR</strong></td>
+                    <td>$Q_3 - Q_1$ — spread of the middle 50%.</td>
+                    <td>Ignores the tails entirely.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The IQR is resistant to outliers for the same reason the median is — it only looks at the middle of the data. It is the basis of the box plot.</p>
+
+        <h3 id="sec-variance-sd">Variance and standard deviation</h3>
+
+        <p>Variance measures average squared deviation from the mean. Squaring makes all deviations positive and penalises large departures more heavily.</p>
+
+        <table>
+            <thead>
+                <tr><th>Level</th><th>Measure</th><th>Formula</th><th>Notation</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2"><strong>Population</strong></td>
+                    <td>Variance</td>
+                    <td>$\sigma^2 = \dfrac{1}{N}\displaystyle\sum_{i=1}^{N}(x_i - \mu)^2$</td>
+                    <td>$\sigma^2$</td>
+                </tr>
+                <tr>
+                    <td>Std deviation</td>
+                    <td>$\sqrt{\sigma^2}$</td>
+                    <td>$\sigma$</td>
+                </tr>
+                <tr>
+                    <td rowspan="2"><strong>Sample</strong></td>
+                    <td>Variance</td>
+                    <td>$s^2 = \dfrac{1}{n-1}\displaystyle\sum_{i=1}^{n}(x_i - \bar{x})^2$</td>
+                    <td>$s^2$</td>
+                </tr>
+                <tr>
+                    <td>Std deviation</td>
+                    <td>$\sqrt{s^2}$</td>
+                    <td>$s$</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The standard deviation is in the same units as the original data, making it interpretable. Variance is in squared units — useful mathematically, harder to communicate directly.</p>
+
+        <h3 id="sec-why-n-minus-1">Why $n-1$ and not $n$?</h3>
+
+        <p>Dividing by $n$ when estimating from a sample consistently underestimates the true spread — the sample clusters around its own mean more tightly than the population does. Dividing by $n-1$ corrects for this. This is called <em>Bessel's correction</em>. When $n$ is large the difference is trivial; it matters most in small samples.</p>
+
+        <h3 id="sec-worked-example-spread">Worked Example</h3>
+
+        <p>Same seven hospital stays: 3, 5, 5, 6, 7, 9, 22. Mean $\bar{x} = 8.14$.</p>
+
+        <table>
+            <thead>
+                <tr><th>$x_i$</th><th>$x_i - \bar{x}$</th><th>$(x_i - \bar{x})^2$</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>3</td><td>$-5.14$</td><td>26.42</td></tr>
+                <tr><td>5</td><td>$-3.14$</td><td>9.86</td></tr>
+                <tr><td>5</td><td>$-3.14$</td><td>9.86</td></tr>
+                <tr><td>6</td><td>$-2.14$</td><td>4.58</td></tr>
+                <tr><td>7</td><td>$-1.14$</td><td>1.30</td></tr>
+                <tr><td>9</td><td>$0.86$</td><td>0.74</td></tr>
+                <tr><td>22</td><td>$13.86$</td><td>192.10</td></tr>
+                <tr><td><strong>Sum</strong></td><td>—</td><td>244.86</td></tr>
+            </tbody>
+        </table>
+
+        $$s^2 = \frac{244.86}{6} = 40.81 \qquad s = \sqrt{40.81} \approx 6.39 \text{ days}$$
+
+        <p>The 22-day outlier contributes 192 of the 244.86 total squared deviation — nearly 80% of the variance from a single observation.</p>
+
+        <h2 id="sec-shape">Shape</h2>
+
+        <p>Knowing centre and spread still leaves the question of how the data are distributed. Shape describes the pattern.</p>
+
+        <h3 id="sec-skewness">Skewness</h3>
+
+        <p>Skewness describes the asymmetry of a distribution.</p>
+
+        <table>
+            <thead>
+                <tr><th>Type</th><th>What it looks like</th><th>Mean vs Median</th><th>Common examples</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Symmetric</strong></td>
+                    <td>Mirror image left and right.</td>
+                    <td>Mean $\approx$ Median</td>
+                    <td>Heights, measurement error</td>
+                </tr>
+                <tr>
+                    <td><strong>Right-skewed</strong> (positive)</td>
+                    <td>Long tail to the right.</td>
+                    <td>Mean $>$ Median</td>
+                    <td>Salaries, house prices, hospital stays</td>
+                </tr>
+                <tr>
+                    <td><strong>Left-skewed</strong> (negative)</td>
+                    <td>Long tail to the left.</td>
+                    <td>Mean $<$ Median</td>
+                    <td>Age at retirement, exam scores near ceiling</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The hospital stays example is right-skewed — the 22-day outlier pulls the mean rightward past the median. The mean chases the tail; the median stays near the bulk of the data.</p>
+
+        <h3 id="sec-kurtosis">Kurtosis</h3>
+
+        <p>Kurtosis measures the weight of the tails relative to a normal distribution. High kurtosis means extreme values are less rare than you would expect. It matters more in later chapters; for now, just know it exists.</p>
+
+        <h2 id="sec-questions">Questions</h2>
+
+        <ol class="prose">
+            <li>A dataset of annual salaries has a mean of £52,000 and a median of £38,000. What does this tell you about the shape of the distribution? Which measure would you report, and why?</li>
+            <li>From Chapter 1: you compute $s = 4.2$ days from a sample of $n = 50$ patients. Is $s$ a parameter or a statistic? What symbol represents the true population value?</li>
+            <li>Two hospitals both report a mean waiting time of 14 minutes. Hospital A has $s = 2$ minutes; Hospital B has $s = 11$ minutes. What does this tell you about the experience of a patient at each?</li>
+            <li>Why do we divide by $n-1$ rather than $n$ when computing sample variance?</li>
+            <li>A researcher reports the IQR rather than the standard deviation for a dataset of household incomes. What does that choice imply about the data?</li>
+        </ol>
+    </main>
+
+    <script src="../sidebar-data.js"></script>
+    <script src="../../sidebar.js"></script>
+    <script src="../../main.js"></script>
+</body>
+</html>
