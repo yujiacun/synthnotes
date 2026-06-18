@@ -2,3 +2,11 @@
 # Static site, no build step — just serve the docs/ folder as the site root.
 [build]
   publish = "docs"
+
+# Site-wide password gate. The function in netlify/edge-functions/auth.js runs
+# on every request and shows a login page until the visitor enters the password.
+# Set the password in: Site settings → Environment variables → SITE_PASSWORD.
+# No SITE_PASSWORD set => the gate stays open (so you can't lock yourself out).
+[[edge_functions]]
+  path = "/*"
+  function = "auth"
