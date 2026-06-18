@@ -1,0 +1,4 @@
+# Netlify deploy config.
+# Static site, no build step — just serve the docs/ folder as the site root.
+[build]
+  publish = "docs"
