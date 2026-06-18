@@ -68,9 +68,10 @@ function loginPage(next, error) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notes — locked</title>
+<title>Synth Notes — locked</title>
 <style>
-  :root{ --bg:#232527; --card:#2c2e30; --text:#e3e3e1; --muted:#888884; --rule:#38383a; --accent:#c45a6a; }
+  :root{ --bg:#1a1b1d; --card:#2c2e30; --text:#e3e3e1; --muted:#888884; --rule:#3a3c3f;
+         --blue:#5b7fc7; --blue-title:#7aa0e0; }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
@@ -79,36 +80,35 @@ function loginPage(next, error) {
     display:flex; align-items:center; justify-content:center; padding:1.5rem;
   }
   .card{
-    width:100%; max-width:340px; background:var(--card);
-    border:1px solid var(--rule); border-radius:10px; padding:2rem 1.75rem;
-    box-shadow:0 8px 30px rgba(0,0,0,.3);
+    width:100%; max-width:300px; background:var(--card);
+    border:1px solid var(--rule); border-radius:8px; padding:2.25rem 2rem;
+    box-shadow:0 8px 30px rgba(0,0,0,.35);
   }
-  h1{margin:0 0 .25rem; font-size:1.4rem; font-weight:700; letter-spacing:-.02em}
-  p.sub{margin:0 0 1.5rem; color:var(--muted); font-size:.9rem}
-  label{display:block; font-size:.78rem; color:var(--muted); margin:0 0 .4rem; text-transform:uppercase; letter-spacing:.06em}
+  h1{margin:0 0 1.5rem; text-align:center; font-size:1.7rem; font-weight:800;
+     letter-spacing:-.01em; color:var(--blue-title)}
   input[type=password]{
-    width:100%; padding:.65rem .75rem; font-size:1rem;
-    background:var(--bg); color:var(--text);
+    width:100%; padding:.7rem .8rem; font-size:1rem;
+    background:#212325; color:var(--text);
     border:1px solid var(--rule); border-radius:6px; outline:none;
   }
-  input[type=password]:focus{border-color:var(--accent)}
+  input[type=password]::placeholder{color:var(--muted)}
+  input[type=password]:focus{border-color:var(--blue)}
   button{
-    margin-top:1.1rem; width:100%; padding:.7rem; font-size:.95rem; font-weight:600;
-    color:#fff; background:var(--accent); border:none; border-radius:6px; cursor:pointer;
+    margin-top:1rem; width:100%; padding:.7rem; font-size:.95rem; font-weight:700;
+    color:#fff; background:var(--blue); border:none; border-radius:6px; cursor:pointer;
   }
   button:hover{filter:brightness(1.08)}
-  .err{margin:0 0 1rem; color:var(--accent); font-size:.85rem}
+  .err{margin:0 0 1rem; text-align:center; color:#d98a8a; font-size:.85rem}
 </style>
 </head>
 <body>
   <form class="card" method="POST" action="${LOGIN_PATH}">
-    <h1>Notes</h1>
-    <p class="sub">This site is private. Enter the password to continue.</p>
+    <h1>Synth Notes</h1>
     ${errorBlock}
-    <label for="pw">Password</label>
-    <input id="pw" name="password" type="password" autofocus autocomplete="current-password" required>
+    <input name="password" type="password" placeholder="Password" aria-label="Password"
+           autofocus autocomplete="current-password" required>
     <input type="hidden" name="next" value="${escapeHtml(next)}">
-    <button type="submit">Unlock</button>
+    <button type="submit">Enter</button>
   </form>
 </body>
 </html>`;
